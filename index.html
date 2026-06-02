@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MAHAM · استوديو مخطّط الموقع التفاعلي — صيف وسمره</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --navy:#081127; --navy2:#0c1d40; --panel:#0a1733; --line:rgba(120,150,210,.14);
+    --gold:#C9A84C; --gold-soft:#E8C765; --gold-deep:#9c7e2f;
+    --ink:#eef3ff; --muted:#90a4cb; --muted2:#62749b;
+    --green:#3C9A5C; --blue:#3B7BC8; --red:#D45a4a; --violet:#8b6cf0;
+    --glass:rgba(13,28,62,.62); --glass2:rgba(10,21,46,.85);
+    --shadow:0 18px 50px -12px rgba(0,0,0,.7);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'IBM Plex Sans Arabic','Cairo',system-ui,sans-serif;
+    background:
+      radial-gradient(1200px 700px at 80% -10%, rgba(201,168,76,.10), transparent 60%),
+      radial-gradient(900px 600px at 0% 110%, rgba(59,123,200,.12), transparent 55%),
+      linear-gradient(160deg,#060d20,#0a1733 55%,#081127);
+    color:var(--ink); overflow:hidden; user-select:none; -webkit-font-smoothing:antialiased;
+  }
+  .app{display:grid;grid-template-rows:auto 1fr auto;height:100vh}
+
+  /* ───── Top bar ───── */
+  .top{display:flex;align-items:center;gap:12px;padding:10px 16px;
+    background:linear-gradient(180deg,rgba(12,29,64,.92),rgba(8,17,39,.78));
+    border-bottom:1px solid var(--line);backdrop-filter:blur(14px);z-index:30}
+  .brand{display:flex;align-items:center;gap:11px;min-width:max-content}
+  .logo-gem{width:40px;height:40px;filter:drop-shadow(0 5px 14px rgba(201,168,76,.5))}
+  .brand-txt h1{font-size:17px;font-weight:800;letter-spacing:.6px;line-height:1.05;font-family:'Cairo','IBM Plex Sans Arabic';color:#fff}
+  .brand-txt h1 .mx{color:var(--gold-soft);font-weight:700}
+  .brand-txt p{font-size:11px;color:var(--muted);font-weight:500;margin-top:1px}
+  .brandmark{position:absolute;right:14px;bottom:14px;z-index:15;display:flex;align-items:center;gap:9px;
+    background:linear-gradient(145deg,rgba(13,28,62,.86),rgba(8,17,39,.78));border:1px solid rgba(201,168,76,.32);
+    border-radius:12px;padding:8px 12px 8px 10px;backdrop-filter:blur(10px);box-shadow:var(--shadow)}
+  .brandmark .bm-gem{width:30px;height:30px;flex:none;filter:drop-shadow(0 3px 8px rgba(201,168,76,.4))}
+  .brandmark .bm-1{font-size:12px;font-weight:700;color:var(--gold-soft);font-family:'Cairo','IBM Plex Sans Arabic';letter-spacing:.3px}
+  .brandmark .bm-2{font-size:10.5px;color:var(--muted);font-weight:500;margin-top:1px}
+  .top .sp{flex:1}
+  .seg{display:flex;background:rgba(8,17,39,.7);border:1px solid var(--line);border-radius:11px;padding:3px;gap:2px}
+  .seg button{border:0;background:transparent;color:var(--muted);font-family:inherit;font-size:12px;font-weight:600;
+    padding:7px 12px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:.18s}
+  .seg button:hover{color:var(--ink)}
+  .seg button.on{background:linear-gradient(145deg,rgba(201,168,76,.22),rgba(201,168,76,.08));color:var(--gold-soft);box-shadow:inset 0 0 0 1px rgba(201,168,76,.4)}
+  .tbtn{border:1px solid var(--line);background:rgba(8,17,39,.6);color:var(--ink);
+    font-family:inherit;font-size:12.5px;font-weight:600;padding:8px 12px;border-radius:10px;cursor:pointer;
+    display:flex;align-items:center;gap:6px;transition:.18s;white-space:nowrap}
+  .tbtn:hover{border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.10);color:var(--gold-soft)}
+  .tbtn.on{border-color:rgba(201,168,76,.6);background:rgba(201,168,76,.16);color:var(--gold-soft)}
+  .tbtn.gold{background:linear-gradient(145deg,var(--gold),var(--gold-deep));color:#10203f;border-color:transparent;box-shadow:0 6px 16px -6px rgba(201,168,76,.7)}
+  .tbtn.gold:hover{filter:brightness(1.08);color:#0a1530}
+
+  /* ───── Body grid ───── */
+  .body{display:grid;grid-template-columns:64px 1fr 320px;overflow:hidden;position:relative}
+
+  /* tool rail */
+  .rail{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 0;
+    background:linear-gradient(180deg,rgba(10,23,51,.7),rgba(8,17,39,.5));border-left:1px solid var(--line);z-index:20}
+  .tool{width:42px;height:42px;border-radius:12px;border:1px solid transparent;background:rgba(8,17,39,.4);
+    color:var(--muted);cursor:pointer;display:grid;place-items:center;transition:.16s;position:relative}
+  .tool:hover{color:var(--ink);background:rgba(201,168,76,.10);border-color:rgba(201,168,76,.3)}
+  .tool.on{color:var(--gold-soft);background:linear-gradient(145deg,rgba(201,168,76,.26),rgba(201,168,76,.06));border-color:rgba(201,168,76,.55);box-shadow:0 0 0 1px rgba(201,168,76,.25), inset 0 0 12px rgba(201,168,76,.12)}
+  .tool svg{width:20px;height:20px}
+  .tool[data-tip]:hover::after{content:attr(data-tip);position:absolute;right:50px;top:50%;transform:translateY(-50%);
+    background:var(--glass2);border:1px solid var(--line);color:var(--ink);font-size:11px;font-weight:600;
+    padding:5px 9px;border-radius:8px;white-space:nowrap;pointer-events:none;z-index:50;box-shadow:var(--shadow)}
+  .rail .div{width:30px;height:1px;background:var(--line);margin:5px 0}
+
+  /* canvas */
+  .stage{position:relative;overflow:hidden}
+  svg.map{width:100%;height:100%;display:block;cursor:crosshair;touch-action:none}
+  svg.map.pan{cursor:grab}svg.map.panning{cursor:grabbing}svg.map.sel{cursor:default}
+
+  .hud{position:absolute;left:14px;bottom:14px;display:flex;gap:8px;align-items:center;z-index:15}
+  .hud .chip{background:var(--glass2);border:1px solid var(--line);border-radius:10px;padding:6px 11px;font-size:11.5px;color:var(--muted);font-weight:600;backdrop-filter:blur(8px)}
+  .hud .chip b{color:var(--gold-soft)}
+  .zoomctl{position:absolute;left:14px;top:14px;display:flex;flex-direction:column;gap:6px;z-index:15}
+  .zoomctl button{width:38px;height:38px;border-radius:11px;border:1px solid var(--line);background:var(--glass2);color:var(--ink);cursor:pointer;font-size:18px;display:grid;place-items:center;backdrop-filter:blur(8px);transition:.16s}
+  .zoomctl button:hover{border-color:rgba(201,168,76,.5);color:var(--gold-soft)}
+
+  .legend{position:absolute;right:14px;top:14px;z-index:15;background:var(--glass2);border:1px solid var(--line);border-radius:12px;padding:11px 13px;backdrop-filter:blur(10px);max-width:210px}
+  .legend h4{font-size:11px;color:var(--muted);font-weight:600;margin-bottom:8px;letter-spacing:.3px}
+  .legend .row{display:flex;align-items:center;gap:8px;font-size:11.5px;margin:5px 0;color:var(--ink)}
+  .legend .dot{width:11px;height:11px;border-radius:4px;flex:none}
+  .legend .ln{width:18px;height:0;border-top:2px dashed var(--gold);flex:none}
+
+  /* unit palette */
+  .upal{position:absolute;bottom:14px;left:50%;transform:translateX(-50%) translateY(14px);z-index:18;display:none;
+    gap:6px;background:var(--glass2);border:1px solid rgba(201,168,76,.35);border-radius:14px;padding:8px;backdrop-filter:blur(12px);box-shadow:var(--shadow);opacity:0;transition:.22s}
+  .upal.show{display:flex;opacity:1;transform:translateX(-50%) translateY(0)}
+  .upal button{display:flex;flex-direction:column;align-items:center;gap:4px;width:62px;padding:7px 4px;border-radius:10px;
+    border:1px solid transparent;background:rgba(8,17,39,.5);color:var(--muted);cursor:pointer;font-family:inherit;font-size:10.5px;font-weight:600;transition:.15s}
+  .upal button:hover{color:var(--ink);border-color:rgba(201,168,76,.3)}
+  .upal button.on{color:#fff;border-color:rgba(201,168,76,.6);background:rgba(201,168,76,.14)}
+  .upal button svg{width:24px;height:24px}
+
+  .toast{position:absolute;left:50%;bottom:78px;transform:translateX(-50%) translateY(20px);opacity:0;
+    background:var(--glass2);border:1px solid rgba(201,168,76,.4);color:var(--gold-soft);font-size:12.5px;font-weight:600;
+    padding:9px 16px;border-radius:11px;backdrop-filter:blur(10px);z-index:60;transition:.3s;pointer-events:none;box-shadow:var(--shadow)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* inspector */
+  .insp{background:linear-gradient(180deg,rgba(10,23,51,.78),rgba(8,17,39,.6));
+    border-right:1px solid var(--line);overflow-y:auto;z-index:20;backdrop-filter:blur(10px)}
+  .insp::-webkit-scrollbar{width:8px}.insp::-webkit-scrollbar-thumb{background:rgba(120,150,210,.2);border-radius:8px}
+  .insp .sec{padding:15px 16px;border-bottom:1px solid var(--line)}
+  .insp h3{font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.4px;margin-bottom:12px;display:flex;align-items:center;gap:7px;text-transform:uppercase}
+  .insp h3 svg{width:14px;height:14px;color:var(--gold)}
+  .field{margin-bottom:11px}
+  .field label{display:block;font-size:11px;color:var(--muted);margin-bottom:5px;font-weight:500}
+  .field input[type=text],.field input[type=number],.field textarea,.field select{
+    width:100%;background:rgba(6,13,32,.7);border:1px solid var(--line);border-radius:9px;
+    color:var(--ink);font-family:inherit;font-size:13px;padding:8px 10px;transition:.15s}
+  .field textarea{resize:vertical;min-height:50px;line-height:1.6}
+  .field input:focus,.field textarea:focus,.field select:focus{outline:0;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.13)}
+  .field select{cursor:pointer}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .swatches{display:flex;flex-wrap:wrap;gap:7px}
+  .sw{width:26px;height:26px;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:.15s}
+  .sw.on{border-color:#fff;transform:scale(1.12);box-shadow:0 4px 12px rgba(0,0,0,.5)}
+  .typegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+  .typegrid button{display:flex;flex-direction:column;align-items:center;gap:5px;padding:9px 4px;border-radius:10px;
+    border:1px solid var(--line);background:rgba(8,17,39,.5);color:var(--muted);cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;transition:.15s}
+  .typegrid button:hover{color:var(--ink);border-color:rgba(201,168,76,.4)}
+  .typegrid button.on{color:#fff;background:rgba(201,168,76,.16);border-color:rgba(201,168,76,.55)}
+  .typegrid button svg{width:24px;height:24px}
+  .stat-status{display:flex;gap:7px}
+  .stat-status button{flex:1;font-size:11.5px;font-weight:600;padding:8px 0;border-radius:9px;border:1px solid var(--line);background:rgba(8,17,39,.5);color:var(--muted);cursor:pointer;transition:.15s}
+  .stat-status button.on[data-s=leased]{background:rgba(60,154,92,.2);color:#6fd496;border-color:rgba(60,154,92,.5)}
+  .stat-status button.on[data-s=partnership]{background:rgba(59,123,200,.2);color:#7db4ee;border-color:rgba(59,123,200,.5)}
+  .stat-status button.on[data-s=vacant]{background:rgba(212,90,74,.2);color:#f0928a;border-color:rgba(212,90,74,.5)}
+  .insp-actions{display:flex;gap:8px;margin-top:6px}
+  .insp-actions button{flex:1;font-size:12px;font-weight:600;padding:9px 0;border-radius:9px;border:1px solid var(--line);background:rgba(8,17,39,.5);color:var(--ink);cursor:pointer;transition:.15s;display:flex;align-items:center;justify-content:center;gap:6px}
+  .insp-actions button:hover{border-color:rgba(201,168,76,.5)}
+  .insp-actions button.danger:hover{border-color:rgba(212,90,74,.6);background:rgba(212,90,74,.12);color:#f0928a}
+  .empty{padding:34px 22px;text-align:center;color:var(--muted2)}
+  .empty .big{width:62px;height:62px;margin:0 auto 16px;border-radius:18px;background:rgba(201,168,76,.08);display:grid;place-items:center;color:var(--gold)}
+  .empty .big svg{width:30px;height:30px}
+  .empty h4{font-size:14px;color:var(--ink);margin-bottom:8px;font-weight:600}
+  .empty p{font-size:12px;line-height:1.8}
+  .kbd{display:inline-block;background:rgba(8,17,39,.8);border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:1px 7px;font-size:11px;font-family:monospace;color:var(--gold-soft);margin:0 2px}
+  .layer-row{display:flex;align-items:center;gap:9px;padding:6px 0;font-size:12.5px;cursor:pointer}
+  .layer-row .tg{width:34px;height:19px;border-radius:20px;background:rgba(8,17,39,.8);border:1px solid var(--line);position:relative;transition:.2s;flex:none}
+  .layer-row .tg::after{content:'';position:absolute;width:13px;height:13px;border-radius:50%;background:var(--muted);top:2px;right:2px;transition:.2s}
+  .layer-row.on .tg{background:rgba(201,168,76,.3);border-color:rgba(201,168,76,.5)}
+  .layer-row.on .tg::after{background:var(--gold-soft);right:16px}
+  .layer-row span{flex:1;color:var(--muted)}.layer-row.on span{color:var(--ink)}
+  .feat-list{max-height:210px;overflow-y:auto}
+  .feat-list::-webkit-scrollbar{width:6px}.feat-list::-webkit-scrollbar-thumb{background:rgba(120,150,210,.2);border-radius:6px}
+  .feat-item{display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:9px;cursor:pointer;transition:.14s;font-size:12.5px}
+  .feat-item:hover{background:rgba(201,168,76,.08)}
+  .feat-item.on{background:rgba(201,168,76,.14);box-shadow:inset 0 0 0 1px rgba(201,168,76,.35)}
+  .feat-item .ic{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;flex:none}
+  .feat-item .ic svg{width:15px;height:15px}
+  .feat-item .nm{flex:1;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .feat-item .ar{font-size:10.5px;color:var(--muted2)}
+  .bottom{display:flex;align-items:center;gap:16px;padding:8px 18px;background:linear-gradient(0deg,rgba(12,29,64,.92),rgba(8,17,39,.7));border-top:1px solid var(--line);font-size:12px;z-index:30}
+  .stat{display:flex;align-items:center;gap:7px;color:var(--muted)}
+  .stat b{color:var(--ink);font-weight:700;font-size:13px}
+  .stat .pill{width:9px;height:9px;border-radius:50%}
+  .bottom .sp{flex:1}
+  .bottom .save-ind{color:var(--muted2);font-size:11px;display:flex;align-items:center;gap:6px}
+  .bottom .save-ind .live{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+  .ghost-vert{fill:#fff;stroke:var(--gold);stroke-width:1.5;cursor:move}
+  input[type=file]{display:none}
+  input[type=range]{width:100%;accent-color:var(--gold)}
+  .modal-bg{position:fixed;inset:0;background:rgba(4,9,22,.7);backdrop-filter:blur(6px);z-index:100;display:none;align-items:center;justify-content:center}
+  .modal-bg.show{display:flex}
+  .modal{background:linear-gradient(160deg,#0c1d40,#081127);border:1px solid rgba(201,168,76,.3);border-radius:18px;padding:26px;max-width:440px;width:90%;box-shadow:var(--shadow)}
+  .modal h2{font-size:17px;margin-bottom:6px;color:var(--gold-soft)}
+  .modal p{font-size:13px;color:var(--muted);line-height:1.9;margin-bottom:18px}
+  .modal .row{display:flex;gap:10px;justify-content:flex-end}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ════════ TOP BAR ════════ -->
+  <header class="top">
+    <div class="brand">
+      <svg class="logo-gem" viewBox="0 0 48 48" aria-label="MAHAM Mexpo">
+        <defs>
+          <linearGradient id="gemG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F0D98A"/><stop offset=".5" stop-color="#C9A84C"/><stop offset="1" stop-color="#8c6f2a"/></linearGradient>
+        </defs>
+        <path d="M24 2 L44 14 V34 L24 46 L4 34 V14 Z" fill="url(#gemG)" stroke="#F0D98A" stroke-width="1" stroke-opacity=".6"/>
+        <path d="M24 2 L44 14 L24 22 L4 14 Z" fill="#fff" fill-opacity=".18"/>
+        <text x="24" y="31" text-anchor="middle" font-family="Cairo,sans-serif" font-weight="800" font-size="20" fill="#0e1c38">M</text>
+      </svg>
+      <div class="brand-txt">
+        <h1>MAHAM <span class="mx">Mexpo</span></h1>
+        <p>مهام إكسبو · استوديو مخطّط الموقع</p>
+      </div>
+    </div>
+    <div class="seg" id="viewSeg" style="margin-inline-start:8px">
+      <button data-view="day" class="on">☀︎ النهار</button>
+      <button data-view="night">☾ الليل</button>
+      <button data-view="blueprint">▦ مخطّط</button>
+      <button data-view="density">◉ الكثافة</button>
+    </div>
+    <div class="sp"></div>
+    <button class="tbtn" id="btnTidy" title="ترتيب القطع في صفوف منظّمة">✦ ترتيب</button>
+    <button class="tbtn" id="btnSnap" title="تثبيت الحركة على الشبكة">⊞ شبكة</button>
+    <button class="tbtn" id="btnUndo" title="تراجع (Ctrl+Z)">↶</button>
+    <button class="tbtn" id="btnRedo" title="إعادة (Ctrl+Y)">↷</button>
+    <button class="tbtn" id="btnUnderlay" title="تحميل صورة مرجعية من الـ CAD">⌖ مرجع</button>
+    <button class="tbtn" id="btnImport">⭳ استيراد</button>
+    <button class="tbtn" id="btnExport">⭱ تصدير</button>
+    <button class="tbtn gold" id="btnSave">✓ حفظ</button>
+    <input type="file" id="fileImport" accept="application/json,.json" />
+    <input type="file" id="fileUnderlay" accept="image/*" />
+  </header>
+
+  <!-- ════════ BODY ════════ -->
+  <div class="body">
+    <nav class="rail" id="rail">
+      <button class="tool on" data-tool="select" data-tip="تحديد ونقل (V)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l7.5 18 2-7 7-2L3 3z"/></svg></button>
+      <button class="tool" data-tool="zone" data-tip="رسم منطقة/قطعة (Z)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5l14 3-4 11-9-3z"/><circle cx="5" cy="5" r="1.6" fill="currentColor"/><circle cx="19" cy="8" r="1.6" fill="currentColor"/><circle cx="15" cy="19" r="1.6" fill="currentColor"/><circle cx="6" cy="16" r="1.6" fill="currentColor"/></svg></button>
+      <button class="tool" data-tool="unit" data-tip="إضافة وحدة: كبينة/كشك/محل (U)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9l1.5-4h13L20 9M4 9h16v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9zM9 19v-5h6v5"/></svg></button>
+      <button class="tool" data-tool="place" data-tip="نقطة/مَعلم (P)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.4 7-11.5A7 7 0 0 0 5 9.5C5 14.6 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></button>
+      <div class="div"></div>
+      <button class="tool" data-tool="pan" data-tip="تحريك العرض (مسافة)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V11m0-1.5a1.5 1.5 0 0 1 3 0V12m0-1a1.5 1.5 0 0 1 3 0v4a6 6 0 0 1-6 6h-1.5a6 6 0 0 1-5.3-3.2L4 14s-.7-1.5.6-2.1c1-.5 1.9.4 1.9.4L9 14"/></svg></button>
+      <button class="tool" data-tool="delete" data-tip="حذف بالنقر (D)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3m-8 0l1 14h8l1-14"/></svg></button>
+      <div class="div"></div>
+      <button class="tool" data-tool="fit" data-tip="ملء الشاشة">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+    </nav>
+
+    <div class="stage" id="stage">
+      <svg class="map" id="map" viewBox="0 0 770 1084" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="zoomctl"><button id="zIn">+</button><button id="zOut">−</button></div>
+      <div class="legend" id="legend">
+        <h4>دليل المخطّط</h4>
+        <div class="row"><span class="dot" style="background:#3C9A5C"></span> مؤجّر</div>
+        <div class="row"><span class="dot" style="background:#3B7BC8"></span> شراكة</div>
+        <div class="row"><span class="dot" style="background:#D45a4a"></span> شاغر</div>
+        <div class="row"><span class="ln"></span> مسار الزوّار</div>
+      </div>
+      <div class="upal" id="upal"></div>
+      <div class="brandmark" id="brandmark">
+        <svg viewBox="0 0 48 48" class="bm-gem"><path d="M24 2 L44 14 V34 L24 46 L4 34 V14 Z" fill="url(#gemG)" stroke="#F0D98A" stroke-width="1" stroke-opacity=".5"/><text x="24" y="31" text-anchor="middle" font-family="Cairo,sans-serif" font-weight="800" font-size="20" fill="#0e1c38">M</text></svg>
+        <div><div class="bm-1">مهام إكسبو · MAHAM Mexpo</div><div class="bm-2" id="bmProj">صيف وسمره · حديقة دلغان</div></div>
+      </div>
+      <div class="hud">
+        <div class="chip">التكبير <b id="zlabel">100%</b></div>
+        <div class="chip" id="coordChip">— , —</div>
+        <div class="chip" id="modeChip">أداة: تحديد</div>
+      </div>
+      <div class="toast" id="toast"></div>
+    </div>
+
+    <aside class="insp" id="insp"></aside>
+  </div>
+
+  <footer class="bottom">
+    <div class="stat"><span class="pill" style="background:var(--gold)"></span> القطع <b id="stZones">0</b></div>
+    <div class="stat"><span class="pill" style="background:#9fb2d8"></span> الوحدات <b id="stUnits">0</b></div>
+    <div class="stat"><span class="pill" style="background:var(--green)"></span> مؤجّر <b id="stLeased">0</b></div>
+    <div class="stat"><span class="pill" style="background:var(--blue)"></span> شراكة <b id="stPartner">0</b></div>
+    <div class="stat"><span class="pill" style="background:var(--red)"></span> شاغر <b id="stVacant">0</b></div>
+    <div class="stat"><span style="color:var(--muted)">المساحة</span> <b id="stArea">0</b> م²</div>
+    <div class="sp"></div>
+    <div class="save-ind"><span class="live"></span> <span id="saveTxt">محفوظ محلياً</span></div>
+  </footer>
+</div>
+
+<div class="modal-bg" id="modalBg"><div class="modal" id="modalBox"></div></div>
+
+<script>
+const SVGNS='http://www.w3.org/2000/svg';
+const STORE_KEY='maham-site-map-studio-v5';
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const el=(t,a={})=>{const e=document.createElementNS(SVGNS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
+const uid=()=>'f'+Math.random().toString(36).slice(2,9)+(uid._n=(uid._n||0)+1);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+
+/* ── categories (for zones & POI places) ── */
+const CATS={
+  access:{ar:'دخول ومعلومات',color:'#7c8db5'}, retail:{ar:'تجزئة وتسوق',color:'#8b6cf0'},
+  fb:{ar:'مأكولات ومشروبات',color:'#E89A4B'}, culture:{ar:'ثقافة وفنون',color:'#d05a8c'},
+  family:{ar:'أسر وأطفال',color:'#39b6b0'}, vip:{ar:'VIP',color:'#C9A84C'},
+  sports:{ar:'رياضة ومغامرات',color:'#3C9A5C'}, nature:{ar:'طبيعة ورصد',color:'#5aa86a'},
+  stage:{ar:'مسرح وفعاليات',color:'#e0654f'}, service:{ar:'خدمات',color:'#5b7bb5'},
+};
+const STATUS={leased:{ar:'مؤجّر',color:'#3C9A5C'},partnership:{ar:'شراكة',color:'#3B7BC8'},vacant:{ar:'شاغر',color:'#D45a4a'}};
+const SWATCH=['#C9A84C','#E89A4B','#3C9A5C','#3B7BC8','#8b6cf0','#d05a8c','#39b6b0','#e0654f','#5aa86a','#7c8db5'];
+
+/* ── UNIT TYPES (commercial markers) with custom glyphs ── */
+const UNIT_TYPES={
+  cabin:{ar:'كبينة',accent:'#3B7BC8'},
+  kiosk:{ar:'كشك',accent:'#E89A4B'},
+  shop:{ar:'محل',accent:'#8b6cf0'},
+  foodtruck:{ar:'عربة طعام',accent:'#e0654f'},
+  tent:{ar:'خيمة',accent:'#3C9A5C'},
+  booth:{ar:'جناح',accent:'#C9A84C'},
+};
+function unitGlyph(type,c='#fff',sw=1.5){
+  const S=`stroke="${c}" stroke-width="${sw}" fill="none" stroke-linecap="round" stroke-linejoin="round"`;
+  switch(type){
+    case 'cabin': return `<rect x="-7" y="-5" width="14" height="10" rx="1.4" ${S}/><line x1="-2.5" y1="-5" x2="-2.5" y2="5" ${S}/><line x1="2.5" y1="-5" x2="2.5" y2="5" ${S}/>`;
+    case 'kiosk': return `<path d="M-7 -1 L0 -6 L7 -1 Z" fill="${c}"/><rect x="-5" y="-1" width="10" height="6" ${S}/><line x1="0" y1="-1" x2="0" y2="5" ${S}/>`;
+    case 'shop': return `<path d="M-7 -2 L-6 -5 L6 -5 L7 -2 Z" fill="${c}"/><rect x="-6" y="-2" width="12" height="7" ${S}/><rect x="-2" y="1" width="4" height="4" ${S}/>`;
+    case 'foodtruck': return `<path d="M-8 3 L-8 -2 L1 -2 L1 -4 L5 -4 L8 0 L8 3 Z" ${S}/><circle cx="-4" cy="4" r="1.7" fill="${c}"/><circle cx="5" cy="4" r="1.7" fill="${c}"/><line x1="-6" y1="-2" x2="-6" y2="1" ${S}/>`;
+    case 'tent': return `<path d="M0 -6 L8 5 L-8 5 Z" ${S}/><line x1="0" y1="-6" x2="0" y2="5" ${S}/><path d="M0 5 l-2.5 -3.5 M0 5 l2.5 -3.5" ${S}/>`;
+    case 'booth': return `<path d="M-7 -1 L0 -6 L7 -1" ${S}/><rect x="-6" y="-1" width="12" height="6" ${S}/><line x1="-6" y1="2" x2="6" y2="2" ${S}/>`;
+    default: return `<circle r="4" fill="${c}"/>`;
+  }
+}
+
+/* ═══════════ GEOMETRY (authored 1:1 in the CAD image space, viewBox 770×1084) ═══════════ */
+const VBW=770, VBH=1084, THDEG=0;
+function T(px,py){return [+px.toFixed(1),+py.toFixed(1)];} // identity — coords already in plan space
+function rectPts(cx,cy,w,h,rot=0){const a=rot*Math.PI/180,c=Math.cos(a),s=Math.sin(a);
+  return [[-w/2,-h/2],[w/2,-h/2],[w/2,h/2],[-w/2,h/2]].map(([x,y])=>[+(cx+x*c-y*s).toFixed(1),+(cy+x*s+y*c).toFixed(1)]);}
+function rectPlan(cx,cy,w,h,rot=0){return rectPts(cx,cy,w,h,rot);}
+function smoothClosed(P){const n=P.length;let d=`M ${((P[0][0]+P[n-1][0])/2).toFixed(1)} ${((P[0][1]+P[n-1][1])/2).toFixed(1)}`;
+  for(let i=0;i<n;i++){const cur=P[i],nx=P[(i+1)%n];d+=` Q ${cur[0]} ${cur[1]} ${((cur[0]+nx[0])/2).toFixed(1)} ${((cur[1]+nx[1])/2).toFixed(1)}`;}return d+' Z';}
+function smoothOpen(P){let d=`M ${P[0][0]} ${P[0][1]}`;for(let i=1;i<P.length-1;i++){d+=` Q ${P[i][0]} ${P[i][1]} ${((P[i][0]+P[i+1][0])/2).toFixed(1)} ${((P[i][1]+P[i+1][1])/2).toFixed(1)}`;}return d+` L ${P[P.length-1][0]} ${P[P.length-1][1]}`;}
+function pip(x,y,poly){let inside=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){const xi=poly[i][0],yi=poly[i][1],xj=poly[j][0],yj=poly[j][1];if(((yi>y)!=(yj>y))&&(x<(xj-xi)*(y-yi)/(yj-yi)+xi))inside=!inside;}return inside;}
+// GREEN EVENT AREA boundary — traced from the CAD (clockwise, image px)
+const EDGE_VIEW=[[235,140],[330,100],[440,86],[540,128],[608,200],[618,300],[602,400],[590,470],[600,560],[606,650],[592,762],[578,872],[558,982],[512,1036],[460,1038],[418,1006],[398,928],[372,832],[348,732],[328,640],[314,560],[300,510],[292,462],[300,420],[270,368],[250,300],[240,212]];
+const EDGE_D=smoothClosed(EDGE_VIEW);
+function inGreen(x,y){return pip(x,y,EDGE_VIEW);}
+
+function defaultScene(){
+  const features=[];
+  // ── event parcels placed in the open central band of the green ──
+  const parcels=[
+    {n:'بوّابة الأصالة',cat:'access',st:'leased',cx:300,cy:470,w:88,h:48,area:300,act:['دخول رئيسي','معلومات']},
+    {n:'قطعة 107',cat:'retail',st:'partnership',cx:486,cy:466,w:80,h:50,area:107.15},
+    {n:'قطعة 74',cat:'fb',st:'leased',cx:556,cy:506,w:74,h:48,area:74.87,act:['كافيهات']},
+    {n:'قطعة 42',cat:'service',st:'vacant',cx:300,cy:556,w:64,h:46,area:42.64},
+    {n:'قطعة 99 أ',cat:'culture',st:'partnership',cx:492,cy:540,w:76,h:50,area:99.57},
+    {n:'قطعة 99 ب',cat:'culture',st:'partnership',cx:560,cy:606,w:76,h:50,area:99.57},
+    {n:'قطعة 111',cat:'sports',st:'vacant',cx:300,cy:648,w:78,h:52,area:111.13},
+    {n:'قطعة 114',cat:'retail',st:'leased',cx:496,cy:642,w:80,h:52,area:114.6,act:['أسواق']},
+    {n:'قطعة 72',cat:'nature',st:'vacant',cx:560,cy:708,w:66,h:48,area:72.01},
+    {n:'ميدان 12',cat:'stage',st:'leased',cx:450,cy:726,w:108,h:58,area:12030,act:['عروض','حفلات']},
+    {n:'ساحة 9.9',cat:'family',st:'partnership',cx:392,cy:686,w:92,h:54,area:9980,act:['ألعاب أطفال']},
+  ];
+  parcels.forEach(p=>features.push({id:uid(),kind:'zone',name_ar:p.n,name_en:'',cat:p.cat,status:p.st,
+    color:CATS[p.cat].color,area:p.area,capacity:[35,50,62,74,86][(p.cx+p.cy)%5],
+    activities:p.act||[],notes:'',points:rectPts(p.cx,p.cy,p.w,p.h,0)}));
+
+  const U=(name,type,st,x,y)=>features.push({id:uid(),kind:'unit',unitType:type,name_ar:name,tenant:'',status:st,color:UNIT_TYPES[type].accent,area:9,price:0,notes:'',x,y});
+  U('كشك العصائر','kiosk','leased',460,500); U('كبينة الهدايا','cabin','partnership',500,490);
+  U('محل الورود','shop','leased',440,530); U('كشك القهوة','kiosk','vacant',560,560);
+  U('عربة برجر','foodtruck','leased',430,700); U('عربة آيس كريم','foodtruck','partnership',470,712);
+  U('خيمة الشاي','tent','leased',400,728); U('كشك الفطائر','kiosk','vacant',548,650);
+  U('جناح الحرفيين','booth','partnership',556,664); U('محل العطور','shop','vacant',300,604);
+  U('كبينة التمور','cabin','leased',320,612); U('كشك الألعاب','kiosk','leased',300,520);
+  U('خيمة الرسم','tent','partnership',330,560); U('عربة الفشار','foodtruck','vacant',512,690);
+  U('كبينة التذاكر','cabin','leased',300,452); U('كشك الخرائط','kiosk','leased',336,470);
+  U('جناح الرعاة','booth','leased',560,540); U('محل الإكسسوار','shop','partnership',490,604);
+
+  const P=(name,cat,st,x,y)=>features.push({id:uid(),kind:'place',name_ar:name,cat,status:st,color:CATS[cat].color,x,y,activities:[],notes:''});
+  P('نقطة معلومات','access','leased',290,440); P('منصّة الراعي','vip','leased',470,640);
+
+  // ── assign codes (location_code bridge to the spaces/sections tables) ──
+  let zc=0,kc=0,pc=0;features.forEach(f=>{f.code=f.kind==='zone'?'Z-'+String(++zc).padStart(2,'0'):f.kind==='unit'?'K-'+String(++kc).padStart(2,'0'):'P-'+String(++pc).padStart(2,'0');});
+  return {meta:{name:'صيف وسمره · حديقة دلغان — عسير',updated:''},
+    visitorPath:[[400,160],[360,340],[360,470],[420,590],[470,700],[470,850]],features};
+}
+
+/* ═══════════ STATE ═══════════ */
+let S=load()||defaultScene();
+let view='day', tool='select', sel=null;
+let zoom=1, panX=0, panY=0;
+let layers={terrain:true,roads:true,water:true,parking:true,rocky:true,zones:true,units:true,places:true,path:true,labels:true,unitLabels:false,underlay:true};
+let underlay=null, snap=false, currentUnit='kiosk';
+let undoStack=[], redoStack=[], draft=null, mouseUser={x:0,y:0};
+
+/* ═══════════ PERSISTENCE ═══════════ */
+function snapshot(){return JSON.stringify({features:S.features,visitorPath:S.visitorPath,meta:S.meta});}
+function pushUndo(){undoStack.push(snapshot());if(undoStack.length>70)undoStack.shift();redoStack=[];refreshUndo();}
+function applySnap(j){const o=JSON.parse(j);S.features=o.features;S.visitorPath=o.visitorPath;S.meta=o.meta;}
+function undo(){if(!undoStack.length)return;redoStack.push(snapshot());applySnap(undoStack.pop());sel=null;renderAll();save();refreshUndo();toast('تراجع');}
+function redo(){if(!redoStack.length)return;undoStack.push(snapshot());applySnap(redoStack.pop());sel=null;renderAll();save();refreshUndo();toast('إعادة');}
+function refreshUndo(){$('#btnUndo').style.opacity=undoStack.length?1:.4;$('#btnRedo').style.opacity=redoStack.length?1:.4;}
+// ── Cloud save (Phase 2 hook): set CLOUD.url to your OWN backend endpoint to enable shared
+//    cross-device save, e.g. PUT https://api.mahamexpo.sa/api/v1/manage/events/{id}/map-layout
+//    with an Authorization header. While empty, save stays reliable in localStorage (per device).
+const CLOUD={ url:'', method:'PUT', headers:{'Content-Type':'application/json'} };
+function cloudPush(payload){ if(!CLOUD.url)return;
+  fetch(CLOUD.url,{method:CLOUD.method,headers:CLOUD.headers,body:JSON.stringify(payload)})
+    .then(r=>{$('#saveTxt').textContent=(r.ok?'محفوظ سحابياً ✓ · ':'محفوظ محلياً (تعذّر السحابي) · ')+new Date().toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'});})
+    .catch(()=>{$('#saveTxt').textContent='محفوظ محلياً (لا اتصال سحابي)';}); }
+let saveT;
+function save(){clearTimeout(saveT);saveT=setTimeout(()=>{S.meta.updated=new Date().toISOString();
+  const payload={...S,underlay};
+  localStorage.setItem(STORE_KEY,JSON.stringify(payload));
+  $('#saveTxt').textContent=(CLOUD.url?'…مزامنة سحابية':'محفوظ محلياً')+' · '+new Date().toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'});
+  cloudPush(payload);},400);}
+function load(){try{const r=localStorage.getItem(STORE_KEY);if(!r)return null;const o=JSON.parse(r);
+  if(o.underlay)setTimeout(()=>{underlay=o.underlay;renderUnderlay();},0);return o;}catch(e){return null;}}
+
+/* ═══════════ COORD ═══════════ */
+const map=$('#map');
+function toUser(evt){const pt=map.createSVGPoint();pt.x=evt.clientX;pt.y=evt.clientY;
+  const m=$('#viewport').getScreenCTM().inverse();const p=pt.matrixTransform(m);return {x:p.x,y:p.y};}
+function applyViewport(){$('#viewport').setAttribute('transform',`translate(${panX} ${panY}) scale(${zoom})`);$('#zlabel').textContent=Math.round(zoom*100)+'%';}
+const gsnap=v=>snap?Math.round(v/8)*8:v;
+
+/* ═══════════ FULL SITE PLAN (traced 1:1 from the CAD; green = event area) ═══════════ */
+function ln(x1,y1,x2,y2,cls){return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="${cls}"/>`;}
+function hexS(cx,cy,r,cls){let d='';for(let i=0;i<6;i++){const a=i/6*Math.PI*2+Math.PI/6;d+=(i?'L':'M')+(cx+Math.cos(a)*r).toFixed(0)+' '+(cy+Math.sin(a)*r).toFixed(0)+' ';}return `<path d="${d}Z" class="${cls}"/>`;}
+function treeAt(x,y,sc,col){return `<g transform="translate(${(+x).toFixed(1)} ${(+y).toFixed(1)}) scale(${sc})"><rect x="-1" y="0" width="2" height="5" fill="#6b4f2a"/><circle cy="-2" r="5" fill="${col}"/><circle cx="-2.6" cy="-4" r="3" fill="${col}" opacity=".82"/><circle cx="2.6" cy="-4" r="3" fill="${col}" opacity=".82"/></g>`;}
+function parkField(cx,cy,w,h,rot,label){
+  const corners=rectPts(cx,cy,w,h,rot);const a=rot*Math.PI/180,c=Math.cos(a),s=Math.sin(a);let ticks='';
+  for(let ry=-h/2+14;ry<h/2-6;ry+=20)for(let rx=-w/2+8;rx<w/2-4;rx+=11){
+    const x1=cx+rx*c-ry*s,y1=cy+rx*s+ry*c,x2=cx+rx*c-(ry+11)*s,y2=cy+rx*s+(ry+11)*c;
+    ticks+=`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" class="slot"/>`;}
+  return `<polygon points="${corners.map(p=>p.join(',')).join(' ')}" class="lot"/>${ticks}<text x="${cx}" y="${cy}" class="lotT">${label}</text>`;
+}
+function greenTrees(){let s='',i=0;for(let y=438;y<772;y+=30)for(let x=252;x<602;x+=30){i++;
+  const px=x+((i*73)%23)-11,py=y+((i*131)%23)-11;
+  if(!inGreen(px,py))continue;if(Math.hypot(px-385,py-590)<54)continue;
+  const sc=(0.58+(((i*37)%10)/10)*0.55).toFixed(2);s+=treeAt(px,py,sc,['#3f9258','#48a062','#56ad6c','#3a874f'][i%4]);}return s;}
+function resTrees(){let s='',i=0;for(let y=452;y<1052;y+=33)for(let x=24;x<220;x+=33){i++;
+  const px=x+((i*53)%19)-9,py=y+((i*97)%19)-9;s+=treeAt(px,py,(0.46+(((i*29)%10)/10)*0.4).toFixed(2),'#3a7d4c');}return s;}
+function terrainSVG(){
+  // ── surrounding context (muted) ──
+  const accessRoads=ln(430,58,700,236,'accRoad')+ln(452,40,722,224,'accRoad')+ln(474,26,742,214,'accRoad')
+    +`<polygon points="556,70 582,62 576,86 552,92" class="accMark"/>`;
+  const rightRoads=`<path d="${smoothOpen([[612,206],[694,272],[728,384],[702,486],[656,566],[612,628]])}" class="roadCtx"/>`
+    +`<path d="${smoothOpen([[656,566],[704,652],[702,772],[680,860]])}" class="roadCtx"/>`;
+  const leftRoad=`<path d="${smoothOpen([[218,150],[238,322],[272,452],[300,540],[330,684],[366,824],[432,994]])}" class="roadEdge"/>`;
+  const resRoads=ln(95,615,182,566,'roadCtx')+ln(95,615,58,722,'roadCtx')+ln(95,615,150,706,'roadCtx')+ln(95,615,40,560,'roadCtx');
+  const roundabout=`<circle cx="95" cy="615" r="34" class="roundA"/><circle cx="95" cy="615" r="14" class="roundA"/>`;
+  const hexes=[[95,702,30],[166,756,28],[70,822,26],[150,866,30],[100,926,26],[186,950,28],[126,1006,26],[60,500,24],[152,470,22]].map(h=>hexS(h[0],h[1],h[2],'hexCtx')).join('');
+  const builds=[[40,560,30,16,-8],[120,600,26,14,4],[60,884,24,12,-10],[172,1010,22,12,6]].map(b=>`<polygon points="${rectPts(b[0],b[1],b[2],b[3],b[4]).map(p=>p.join(',')).join(' ')}" class="resBld"/>`).join('');
+  const water=`<path d="${smoothClosed([[618,652],[702,674],[742,784],[726,904],[668,1006],[616,952],[604,800],[600,702]])}" class="water"/>`;
+  // ── event green internals ──
+  const parking=parkField(415,294,300,250,-8,'مواقف P1')+parkField(460,884,202,210,-6,'مواقف P2');
+  const ringR=46,rx=385,ry=590;
+  const ring=`<circle cx="${rx}" cy="${ry}" r="${ringR}" class="ring"/><circle cx="${rx}" cy="${ry}" r="${ringR*.66}" class="ringIn"/><circle cx="${rx}" cy="${ry}" r="${ringR*.34}" class="ringIn"/><text x="${rx}" y="${ry+4}" class="ringT">ساحة الخيول</text>`;
+  const structs=[[372,700,46,20,-6],[346,728,30,14,-6]].map(b=>`<polygon points="${rectPts(b[0],b[1],b[2],b[3],b[4]).map(p=>p.join(',')).join(' ')}" class="bld"/>`).join('');
+  const pond=`<path d="${smoothClosed([[300,772],[336,766],[348,792],[326,812],[296,802]])}" class="water"/>`;
+  return `
+  <defs>
+    <radialGradient id="parkG" cx="42%" cy="34%" r="78%"><stop offset="0" class="g0"/><stop offset="1" class="g1"/></radialGradient>
+    <linearGradient id="gLeased" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#56c07f"/><stop offset="1" stop-color="#2c7748"/></linearGradient>
+    <linearGradient id="gPartnership" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b95d8"/><stop offset="1" stop-color="#2c5e9c"/></linearGradient>
+    <linearGradient id="gVacant" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e87a6b"/><stop offset="1" stop-color="#b23f31"/></linearGradient>
+    <pattern id="lawn" width="22" height="22" patternUnits="userSpaceOnUse"><path d="M0 11 Q5.5 5 11 11 T22 11" fill="none" stroke="#2f7a48" stroke-width=".7" opacity=".25"/></pattern>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#6f8bc0" stroke-width=".5" opacity=".06"/></pattern>
+    <filter id="pinShadow" x="-60%" y="-60%" width="220%" height="220%"><feDropShadow dx="0" dy="3" stdDeviation="2.6" flood-color="#000" flood-opacity=".5"/></filter>
+    <filter id="parkGlow"><feGaussianBlur stdDeviation="7"/></filter>
+    <clipPath id="siteClip"><path d="${EDGE_D}"/></clipPath>
+  </defs>
+
+  <g id="lWater">${water}</g>
+  <g id="lRoads">${leftRoad}${rightRoads}${accessRoads}${resRoads}</g>
+  <g id="lRocky">${roundabout}${hexes}${builds}${resTrees()}<text x="112" y="438" class="resLbl">منطقة محيطة</text></g>
+  <g id="lTerrain">
+    <path d="${EDGE_D}" fill="#1f7a46" opacity=".28" filter="url(#parkGlow)"/>
+    <path id="siteEdge" d="${EDGE_D}" fill="url(#parkG)" stroke="#7fd49b" stroke-width="2.4" stroke-opacity=".7"/>
+    <path d="${EDGE_D}" fill="url(#lawn)" clip-path="url(#siteClip)"/>
+    <path d="${EDGE_D}" fill="url(#grid)" clip-path="url(#siteClip)" class="gridL"/>
+    <g clip-path="url(#siteClip)">${pond}${greenTrees()}${structs}</g>
+    <path d="${EDGE_D}" fill="none" stroke="#C9A84C" stroke-width="2.2" stroke-opacity=".75" stroke-dasharray="9 6"/>
+    <text x="412" y="128" class="evtLbl">منطقة الفعالية</text>
+    <text x="412" y="148" class="evtSub">المساحة المخصّصة · حديقة دلغان</text>
+  </g>
+  <g id="lParking">${parking}</g>
+  <g id="ringG">${ring}</g>
+  `;
+}
+
+/* ═══════════ RENDER ═══════════ */
+function renderAll(){
+  map.innerHTML=`${terrainSVG()}
+    <g id="viewportRoot"><g id="viewport">
+      <g id="underlayG"></g><g id="terrainLayers"></g>
+      <g id="pathG"></g><g id="zonesG"></g><g id="unitsG"></g><g id="placesG"></g>
+      <g id="draftG"></g><g id="handlesG"></g>
+    </g></g>`;
+  const vp=$('#terrainLayers');
+  ['lWater','lRoads','lRocky','lTerrain','lParking','ringG'].forEach(id=>{const g=$('#'+id);if(g)vp.appendChild(g);});
+  $('#lWater').style.display=layers.water?'':'none';
+  $('#lRoads').style.display=layers.roads?'':'none';
+  $('#lParking').style.display=layers.parking?'':'none';
+  $('#lRocky').style.display=layers.rocky?'':'none';
+  $('#lTerrain').style.display=layers.terrain?'':'none';
+  $('#ringG').style.display=layers.terrain?'':'none';
+  renderUnderlay();renderPath();renderZones();renderUnits();renderPlaces();renderHandles();
+  applyViewport();applyView();updateStats();buildInspector();
+}
+function renderUnderlay(){const g=$('#underlayG');if(!g)return;g.innerHTML='';
+  if(underlay&&layers.underlay){const im=el('image',{x:18,y:18,width:734,height:1048,preserveAspectRatio:'xMidYMid meet',opacity:underlay.opacity??.5});
+    im.setAttribute('href',underlay.href);im.setAttributeNS('http://www.w3.org/1999/xlink','href',underlay.href);g.appendChild(im);}}
+function renderPath(){const g=$('#pathG');if(!g)return;g.innerHTML='';
+  if(!layers.path||!S.visitorPath||S.visitorPath.length<2)return;
+  const d='M '+S.visitorPath.map(p=>p[0]+' '+p[1]).join(' L ');
+  const base=el('path',{d,fill:'none',stroke:'#C9A84C',"stroke-width":3,"stroke-opacity":.85,"stroke-linecap":'round',"stroke-dasharray":'2 10'});
+  base.style.filter='drop-shadow(0 0 4px rgba(201,168,76,.6))';
+  base.appendChild(el('animate',{attributeName:'stroke-dashoffset',from:0,to:-120,dur:'4s',repeatCount:'indefinite'}));
+  g.appendChild(base);
+  S.visitorPath.forEach(p=>g.appendChild(el('circle',{cx:p[0],cy:p[1],r:2.6,fill:'#E8C765'})));}
+function zoneCenter(f){let x=0,y=0;f.points.forEach(p=>{x+=p[0];y+=p[1];});return [x/f.points.length,y/f.points.length];}
+function zoneFill(f){if(view==='density'){const c=f.capacity||0;return c>=80?'#D45a4a':c>=60?'#E89A4B':c>=40?'#C9A84C':'#3B7BC8';}
+  if(view==='blueprint')return 'transparent';return STATUS[f.status]?.color||f.color;}
+function renderZones(){const g=$('#zonesG');if(!g)return;g.innerHTML='';if(!layers.zones)return;
+  S.features.filter(f=>f.kind==='zone').forEach(f=>{
+    const pts=f.points.map(p=>p.join(',')).join(' ');const isSel=f.id===sel;const fill=zoneFill(f);
+    const stroke=view==='blueprint'?'#6fd0ff':(STATUS[f.status]?.color||f.color);
+    const poly=el('polygon',{points:pts,fill,"fill-opacity":view==='blueprint'?0:(isSel?.42:.24),
+      stroke,"stroke-width":isSel?2.6:1.5,"stroke-opacity":isSel?1:.8,"stroke-linejoin":'round',class:'zone'});
+    poly.dataset.id=f.id;poly.style.cursor=tool==='select'?'move':(tool==='delete'?'pointer':'crosshair');
+    if(isSel)poly.style.filter='drop-shadow(0 0 10px '+stroke+'66)';
+    g.appendChild(poly);
+    if(layers.labels){const [cx,cy]=zoneCenter(f);
+      const t=el('text',{x:cx,y:cy-2,"text-anchor":'middle',class:'zoneLbl'});t.textContent=f.name_ar;
+      const t2=el('text',{x:cx,y:cy+12,"text-anchor":'middle',class:'zoneLbl2'});
+      t2.textContent=(STATUS[f.status]?.ar||'')+' · '+(f.area?fmtArea(f.area):'');
+      g.appendChild(t);g.appendChild(t2);}
+  });}
+function renderUnits(){const g=$('#unitsG');if(!g)return;g.innerHTML='';if(!layers.units)return;
+  S.features.filter(f=>f.kind==='unit').forEach(f=>{
+    const isSel=f.id===sel;const col=STATUS[f.status]?.color||'#888';const acc=UNIT_TYPES[f.unitType]?.accent||col;
+    const grp=el('g',{transform:`translate(${f.x} ${f.y})`+(isSel?' scale(1.12)':''),class:'unitPin'});grp.dataset.id=f.id;
+    grp.style.cursor=tool==='select'?'move':(tool==='delete'?'pointer':'crosshair');
+    if(isSel){const ring=el('rect',{x:-16,y:-33,width:32,height:32,rx:10,fill:'none',stroke:col,"stroke-width":1.4,"stroke-opacity":.6});
+      ring.appendChild(el('animate',{attributeName:'stroke-opacity',values:'.8;.15;.8',dur:'1.8s',repeatCount:'indefinite'}));grp.appendChild(ring);}
+    // stem
+    const stem=el('path',{d:'M -5 -4 L 5 -4 L 0 3 Z',fill:`url(#g${cap(f.status)})`});grp.appendChild(stem);
+    // chip
+    const chip=el('rect',{x:-13,y:-30,width:26,height:26,rx:8,fill:`url(#g${cap(f.status)})`,stroke:'#fff',"stroke-width":1.5});
+    chip.style.filter='url(#pinShadow)';grp.appendChild(chip);
+    // type-accent dot
+    grp.appendChild(el('circle',{cx:9.5,cy:-26.5,r:3,fill:acc,stroke:'#fff',"stroke-width":1}));
+    // glyph
+    const gl=el('g',{transform:'translate(0 -17)'});gl.innerHTML=unitGlyph(f.unitType,'#fff',1.5);grp.appendChild(gl);
+    if(layers.unitLabels||isSel){const t=el('text',{x:0,y:14,"text-anchor":'middle',class:'unitLbl'});t.textContent=f.name_ar;grp.appendChild(t);}
+    g.appendChild(grp);
+  });}
+function renderPlaces(){const g=$('#placesG');if(!g)return;g.innerHTML='';if(!layers.places)return;
+  S.features.filter(f=>f.kind==='place').forEach(f=>{
+    const isSel=f.id===sel;const col=STATUS[f.status]?.color||f.color;
+    const grp=el('g',{transform:`translate(${f.x} ${f.y})`,class:'placePin'});grp.dataset.id=f.id;
+    grp.style.cursor=tool==='select'?'move':(tool==='delete'?'pointer':'crosshair');
+    if(isSel){const ring=el('circle',{r:18,fill:'none',stroke:col,"stroke-width":1.5,"stroke-opacity":.6});
+      ring.appendChild(el('animate',{attributeName:'r',values:'15;23;15',dur:'2s',repeatCount:'indefinite'}));
+      ring.appendChild(el('animate',{attributeName:'stroke-opacity',values:'.7;0;.7',dur:'2s',repeatCount:'indefinite'}));grp.appendChild(ring);}
+    const pin=el('path',{d:'M0 4 C -9 4 -15 -4 -15 -11 A 15 15 0 1 1 15 -11 C 15 -4 9 4 0 4 Z',fill:col,stroke:'#fff',"stroke-width":1.5});
+    pin.style.filter='url(#pinShadow)';grp.appendChild(pin);
+    grp.appendChild(el('circle',{cx:0,cy:-11,r:7.5,fill:'#fff'}));
+    const gl=el('g',{transform:'translate(0 -11) scale(.62)'});gl.innerHTML=unitGlyph(f.cat==='vip'?'booth':'cabin',col,2);grp.appendChild(gl);
+    if(layers.labels){const t=el('text',{x:0,y:20,"text-anchor":'middle',class:'placeLbl'});t.textContent=f.name_ar;grp.appendChild(t);}
+    g.appendChild(grp);
+  });}
+function renderHandles(){const g=$('#handlesG');if(!g)return;g.innerHTML='';if(tool!=='select'||!sel)return;
+  const f=S.features.find(x=>x.id===sel);if(!f||f.kind!=='zone')return;
+  f.points.forEach((p,i)=>{const h=el('rect',{x:p[0]-5,y:p[1]-5,width:10,height:10,rx:2,class:'ghost-vert'});h.dataset.vi=i;g.appendChild(h);});}
+function applyView(){map.classList.remove('vDay','vNight','vBlue','vDensity');
+  map.classList.add(view==='day'?'vDay':view==='night'?'vNight':view==='blueprint'?'vBlue':'vDensity');}
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+
+/* ═══════════ STATS ═══════════ */
+function fmtArea(a){return a>=1000?(a/1000).toLocaleString('ar-EG',{maximumFractionDigits:1})+'k م²':a.toLocaleString('ar-EG',{maximumFractionDigits:1})+' م²';}
+function updateStats(){const z=S.features.filter(f=>f.kind==='zone');const u=S.features.filter(f=>f.kind==='unit');
+  const all=[...z,...u];
+  $('#stZones').textContent=z.length;$('#stUnits').textContent=u.length;
+  $('#stLeased').textContent=all.filter(f=>f.status==='leased').length;
+  $('#stPartner').textContent=all.filter(f=>f.status==='partnership').length;
+  $('#stVacant').textContent=all.filter(f=>f.status==='vacant').length;
+  $('#stArea').textContent=z.reduce((s,f)=>s+(+f.area||0),0).toLocaleString('ar-EG',{maximumFractionDigits:0});}
+
+/* ═══════════ INSPECTOR ═══════════ */
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function buildInspector(){
+  const ins=$('#insp');const f=S.features.find(x=>x.id===sel);let html='';
+  if(f){
+    const isZone=f.kind==='zone', isUnit=f.kind==='unit';
+    const title=isZone?'تحرير القطعة':isUnit?'تحرير الوحدة':'تحرير المَعلم';
+    html+=`<div class="sec">
+      <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20l9-5-9-5-9 5 9 5z"/></svg> ${title}</h3>
+      <div class="field"><label>${isUnit?'اسم الوحدة':'الاسم (عربي)'}</label><input type="text" id="fName" value="${esc(f.name_ar)}"/></div>
+      <div class="field"><label>الكود · location_code (للربط بقسم الوحدات)</label><input type="text" id="fCode" value="${esc(f.code||'')}" placeholder="${isUnit?'مثال: Q-K06':'مثال: Z-01'}"/></div>`;
+    if(isUnit){
+      html+=`<div class="field"><label>نوع الوحدة</label><div class="typegrid" id="fType">${Object.entries(UNIT_TYPES).map(([k,v])=>
+        `<button data-t="${k}" class="${f.unitType===k?'on':''}"><svg viewBox="-13 -13 26 26">${unitGlyph(k,'#fff',1.6)}</svg>${v.ar}</button>`).join('')}</div></div>
+        <div class="field"><label>المستأجر / الجهة</label><input type="text" id="fTenant" value="${esc(f.tenant||'')}"/></div>`;
+    } else {
+      html+=`<div class="field"><label>الاسم (إنجليزي)</label><input type="text" id="fNameEn" value="${esc(f.name_en||'')}"/></div>
+        <div class="field"><label>التصنيف</label><select id="fCat">${Object.entries(CATS).map(([k,v])=>`<option value="${k}" ${f.cat===k?'selected':''}>${v.ar}</option>`).join('')}</select></div>`;
+    }
+    html+=`<div class="field"><label>الحالة</label><div class="stat-status">${Object.entries(STATUS).map(([k,v])=>`<button data-s="${k}" class="${f.status===k?'on':''}">${v.ar}</button>`).join('')}</div></div>`;
+    if(isZone)html+=`<div class="grid2"><div class="field"><label>المساحة (م²)</label><input type="number" id="fArea" value="${f.area||0}" step="0.01"/></div><div class="field"><label>الإشغال %</label><input type="number" id="fCap" value="${f.capacity||0}" min="0" max="100"/></div></div>`;
+    if(isUnit)html+=`<div class="grid2"><div class="field"><label>المساحة (م²)</label><input type="number" id="fArea" value="${f.area||0}" step="0.1"/></div><div class="field"><label>السعر (ريال)</label><input type="number" id="fPrice" value="${f.price||0}"/></div></div>`;
+    if(!isUnit)html+=`<div class="field"><label>اللون</label><div class="swatches" id="fSw">${SWATCH.map(c=>`<div class="sw ${f.color===c?'on':''}" style="background:${c}" data-c="${c}"></div>`).join('')}</div></div>
+      <div class="field"><label>الأنشطة (مفصولة بفاصلة)</label><input type="text" id="fAct" value="${esc((f.activities||[]).join('، '))}"/></div>`;
+    html+=`<div class="field"><label>ملاحظات</label><textarea id="fNotes">${esc(f.notes||'')}</textarea></div>
+      <div class="insp-actions"><button id="fDup">⧉ تكرار</button><button id="fDel" class="danger">🗑 حذف</button></div></div>`;
+  } else {
+    html+=`<div class="empty"><div class="big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 20l9-5-9-5-9 5 9 5z"/><path d="M12 4L3 9l9 5 9-5-9-5z"/><path d="M3 14l9 5 9-5"/></svg></div>
+      <h4>لوحة التحرير</h4>
+      <p>أداة <b style="color:var(--gold-soft)">وحدة</b> 🏪 تفتح لوحة الأنواع (كبينة/كشك/محل/عربة/خيمة/جناح) ثم انقر لوضعها.<br>
+      أداة <b style="color:var(--gold-soft)">رسم منطقة</b> لرسم قطعة، و<b style="color:var(--gold-soft)">مَعلم</b> لنقطة دالّة.<br><br>
+      انقر أي عنصر لتحديده وتعديل خصائصه هنا.</p>
+      <p style="margin-top:12px;font-size:11px"><span class="kbd">V</span> تحديد · <span class="kbd">Z</span> منطقة · <span class="kbd">U</span> وحدة · <span class="kbd">P</span> معلم<br>
+      <span class="kbd">Enter</span> إنهاء الرسم · <span class="kbd">Del</span> حذف · <span class="kbd">Ctrl+Z</span> تراجع</p></div>`;
+  }
+  // layers
+  html+=`<div class="sec"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5M3 17l9 5 9-5"/></svg> الطبقات</h3>
+    ${[['zones','القطع'],['units','الوحدات'],['unitLabels','أسماء الوحدات'],['places','المعالم'],['path','مسار الزوّار'],['parking','المواقف'],['roads','الطرق'],['water','المياه'],['rocky','المناطق الصخرية'],['terrain','الأرضية'],['labels','التسميات'],['underlay','المرجع']].map(([k,n])=>
+      `<div class="layer-row ${layers[k]?'on':''}" data-lay="${k}"><div class="tg"></div><span>${n}</span></div>`).join('')}</div>`;
+  // list
+  const list=S.features;
+  html+=`<div class="sec"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg> العناصر (${list.length})</h3>
+    <div class="feat-list">${list.map(f=>{const col=STATUS[f.status]?.color||f.color||'#888';
+      const ic=f.kind==='unit'?`<svg viewBox="-13 -13 26 26">${unitGlyph(f.unitType,col,1.8)}</svg>`:(f.kind==='zone'?'▱':'📍');
+      const sub=(f.code?esc(f.code)+' · ':'')+(f.kind==='zone'?(f.area?fmtArea(f.area):'قطعة'):(f.kind==='unit'?(UNIT_TYPES[f.unitType]?.ar||'وحدة'):'معلم'));
+      return `<div class="feat-item ${f.id===sel?'on':''}" data-fid="${f.id}"><div class="ic" style="background:${col}22;color:${col}">${ic}</div>
+      <div class="nm">${esc(f.name_ar)}<div class="ar">${sub} · ${STATUS[f.status]?.ar||''}</div></div></div>`;}).join('')||'<p style="color:var(--muted2);font-size:12px;text-align:center;padding:10px">لا عناصر</p>'}</div></div>`;
+  ins.innerHTML=html;wireInspector(f);
+}
+function wireInspector(f){
+  $$('.layer-row',$('#insp')).forEach(r=>r.onclick=()=>{layers[r.dataset.lay]=!layers[r.dataset.lay];renderAll();save();});
+  $$('.feat-item',$('#insp')).forEach(it=>it.onclick=()=>{sel=it.dataset.fid;focusFeature(sel);renderAll();});
+  if(!f)return;
+  const commit=mut=>{pushUndo();mut();renderAll();save();};
+  $('#fName').oninput=e=>{f.name_ar=e.target.value;renderZones();renderUnits();renderPlaces();save();};
+  $('#fCode')&&($('#fCode').oninput=e=>{f.code=e.target.value;save();});
+  $('#fNameEn')&&($('#fNameEn').oninput=e=>{f.name_en=e.target.value;save();});
+  $('#fTenant')&&($('#fTenant').oninput=e=>{f.tenant=e.target.value;save();});
+  $('#fCat')&&($('#fCat').onchange=e=>commit(()=>{f.cat=e.target.value;f.color=CATS[e.target.value].color;}));
+  $('#fArea')&&($('#fArea').oninput=e=>{f.area=+e.target.value;updateStats();renderZones();save();});
+  $('#fCap')&&($('#fCap').oninput=e=>{f.capacity=clamp(+e.target.value,0,100);if(view==='density')renderZones();save();});
+  $('#fPrice')&&($('#fPrice').oninput=e=>{f.price=+e.target.value;save();});
+  $('#fAct')&&($('#fAct').oninput=e=>{f.activities=e.target.value.split(/[،,]/).map(s=>s.trim()).filter(Boolean);save();});
+  $('#fNotes').oninput=e=>{f.notes=e.target.value;save();};
+  $$('.stat-status button',$('#insp')).forEach(b=>b.onclick=()=>commit(()=>f.status=b.dataset.s));
+  $$('#fType button').forEach(b=>b.onclick=()=>commit(()=>{f.unitType=b.dataset.t;f.color=UNIT_TYPES[b.dataset.t].accent;}));
+  $$('#fSw .sw').forEach(s=>s.onclick=()=>commit(()=>f.color=s.dataset.c));
+  $('#fDup').onclick=()=>duplicate(f);$('#fDel').onclick=()=>delFeature(f.id);
+}
+
+/* ═══════════ OPS ═══════════ */
+function focusFeature(id){const f=S.features.find(x=>x.id===id);if(!f)return;
+  let cx,cy;if(f.kind==='zone'){[cx,cy]=zoneCenter(f);}else{cx=f.x;cy=f.y;}
+  zoom=clamp(Math.max(zoom,1.6),1.6,3);panX=VBW/2-cx*zoom;panY=VBH/2-cy*zoom;applyViewport();}
+function duplicate(f){pushUndo();const c=JSON.parse(JSON.stringify(f));c.id=uid();c.name_ar=f.name_ar+' (نسخة)';c.code=nextCode(f.kind==='zone'?'Z-':f.kind==='unit'?'K-':'P-');
+  if(c.kind==='zone')c.points=c.points.map(p=>[p[0]+24,p[1]+24]);else{c.x+=24;c.y+=24;}
+  S.features.push(c);sel=c.id;renderAll();save();toast('تم التكرار');}
+function delFeature(id){pushUndo();S.features=S.features.filter(x=>x.id!==id);if(sel===id)sel=null;renderAll();save();toast('حُذف العنصر');}
+function nextCode(prefix){let max=0;S.features.forEach(f=>{if(f.code&&f.code.indexOf(prefix)===0){const m=f.code.slice(prefix.length).match(/\d+/);if(m)max=Math.max(max,+m[0]);}});return prefix+String(max+1).padStart(2,'0');}
+
+/* tidy: re-lay zones into neat rows along the spine */
+function tidyZones(){
+  const zs=S.features.filter(f=>f.kind==='zone');if(!zs.length)return;
+  pushUndo();
+  // sort big plazas to bottom row, normal parcels grid above
+  const small=zs.filter(z=>(z.area||0)<1000), big=zs.filter(z=>(z.area||0)>=1000);
+  const startX=560,startY=300,colW=104,rowH=84,cols=4;
+  small.forEach((z,i)=>{const r=Math.floor(i/cols),c=i%cols;
+    const cx=startX+c*colW+ (r*26), cy=startY+r*rowH;
+    z.points=rectPts(cx,cy,84,56,SPINE_ROT);});
+  big.forEach((z,i)=>{const cx=600+i*180, cy=startY+Math.ceil(small.length/cols)*rowH+30;
+    z.points=rectPts(cx,cy,140,80,SPINE_ROT);});
+  renderAll();save();toast('رُتّبت القطع في صفوف منظّمة');
+}
+
+/* ═══════════ TOOLS ═══════════ */
+function setTool(t){if(t==='fit'){fit();return;}
+  tool=t;draft=null;$('#draftG')&&($('#draftG').innerHTML='');
+  $$('.tool').forEach(b=>b.classList.toggle('on',b.dataset.tool===t));
+  map.classList.remove('pan','sel','panning');if(t==='pan')map.classList.add('pan');else if(t==='select')map.classList.add('sel');
+  $('#upal').classList.toggle('show',t==='unit');
+  applyView();
+  const names={select:'تحديد',zone:'رسم منطقة',unit:'وحدة',place:'معلم',pan:'تحريك',delete:'حذف'};
+  $('#modeChip').textContent='أداة: '+(names[t]||t);
+  renderZones();renderUnits();renderPlaces();renderHandles();}
+$$('.tool').forEach(b=>b.onclick=()=>setTool(b.dataset.tool));
+
+/* unit palette */
+function buildPalette(){$('#upal').innerHTML=Object.entries(UNIT_TYPES).map(([k,v])=>
+  `<button data-u="${k}" class="${currentUnit===k?'on':''}"><svg viewBox="-13 -13 26 26">${unitGlyph(k,'#fff',1.6)}</svg>${v.ar}</button>`).join('');
+  $$('#upal button').forEach(b=>b.onclick=()=>{currentUnit=b.dataset.u;buildPalette();});}
+
+/* view modes */
+$$('#viewSeg button').forEach(b=>b.onclick=()=>{view=b.dataset.view;$$('#viewSeg button').forEach(x=>x.classList.toggle('on',x===b));renderAll();save();});
+
+/* zoom */
+function setZoom(z,cx,cy){const old=zoom;zoom=clamp(z,.4,4);if(cx!=null){panX=cx-(cx-panX)*(zoom/old);panY=cy-(cy-panY)*(zoom/old);}applyViewport();}
+$('#zIn').onclick=()=>setZoom(zoom*1.2);$('#zOut').onclick=()=>setZoom(zoom/1.2);
+function fit(){zoom=1;panX=0;panY=0;applyViewport();toast('ملء الشاشة');}
+map.addEventListener('wheel',e=>{e.preventDefault();const r=map.getBoundingClientRect();
+  const sc=Math.min(r.width/VBW,r.height/VBH),offx=(r.width-VBW*sc)/2,offy=(r.height-VBH*sc)/2;
+  const sx=(e.clientX-r.left-offx)/sc,sy=(e.clientY-r.top-offy)/sc;setZoom(zoom*(e.deltaY<0?1.1:.9),sx,sy);},{passive:false});
+
+/* ═══════════ POINTER ═══════════ */
+let drag=null;
+map.addEventListener('pointerdown',e=>{if(e.button!==0)return;map.setPointerCapture(e.pointerId);
+  const u=toUser(e);mouseUser=u;
+  const hitVert=e.target.classList.contains('ghost-vert');
+  const hitZone=e.target.closest('#zonesG polygon');
+  const hitUnit=e.target.closest('#unitsG .unitPin');
+  const hitPlace=e.target.closest('#placesG .placePin');
+  if(tool==='pan'||e.shiftKey){drag={type:'pan',sx:e.clientX,sy:e.clientY,px:panX,py:panY};map.classList.add('panning');return;}
+  if(tool==='zone'){if(!draft)draft=[];draft.push([+gsnap(u.x).toFixed(1),+gsnap(u.y).toFixed(1)]);drawDraft();return;}
+  if(tool==='unit'){dropUnit(u.x,u.y);return;}
+  if(tool==='place'){addPlace(u.x,u.y);return;}
+  if(tool==='delete'){if(hitZone)delFeature(hitZone.dataset.id);else if(hitUnit)delFeature(hitUnit.dataset.id);else if(hitPlace)delFeature(hitPlace.dataset.id);return;}
+  // SELECT
+  if(hitVert){const f=S.features.find(x=>x.id===sel);drag={type:'vert',f,vi:+e.target.dataset.vi};pushUndo();return;}
+  if(hitZone){sel=hitZone.dataset.id;const f=S.features.find(x=>x.id===sel);drag={type:'move',f,start:u,orig:JSON.parse(JSON.stringify(f.points))};pushUndo();renderAll();return;}
+  if(hitUnit){sel=hitUnit.dataset.id;const f=S.features.find(x=>x.id===sel);drag={type:'movePt',f,start:u,ox:f.x,oy:f.y};pushUndo();renderAll();return;}
+  if(hitPlace){sel=hitPlace.dataset.id;const f=S.features.find(x=>x.id===sel);drag={type:'movePt',f,start:u,ox:f.x,oy:f.y};pushUndo();renderAll();return;}
+  sel=null;renderAll();drag={type:'pan',sx:e.clientX,sy:e.clientY,px:panX,py:panY,maybe:true};});
+map.addEventListener('pointermove',e=>{const u=toUser(e);mouseUser=u;$('#coordChip').textContent=`${u.x.toFixed(0)} , ${u.y.toFixed(0)}`;
+  if(tool==='zone'&&draft&&draft.length)drawDraft(u);
+  if(!drag)return;
+  if(drag.type==='pan'){if(drag.maybe&&Math.abs(e.clientX-drag.sx)<3&&Math.abs(e.clientY-drag.sy)<3)return;panX=drag.px+(e.clientX-drag.sx);panY=drag.py+(e.clientY-drag.sy);applyViewport();return;}
+  if(drag.type==='vert'){drag.f.points[drag.vi]=[+gsnap(u.x).toFixed(1),+gsnap(u.y).toFixed(1)];renderZones();renderHandles();return;}
+  if(drag.type==='move'){const dx=u.x-drag.start.x,dy=u.y-drag.start.y;drag.f.points=drag.orig.map(p=>[+gsnap(p[0]+dx).toFixed(1),+gsnap(p[1]+dy).toFixed(1)]);renderZones();renderHandles();return;}
+  if(drag.type==='movePt'){drag.f.x=+gsnap(drag.ox+(u.x-drag.start.x)).toFixed(1);drag.f.y=+gsnap(drag.oy+(u.y-drag.start.y)).toFixed(1);renderUnits();renderPlaces();return;}});
+map.addEventListener('pointerup',()=>{map.classList.remove('panning');if(drag&&['move','movePt','vert'].includes(drag.type)){save();buildInspector();}drag=null;});
+map.addEventListener('dblclick',()=>{if(tool==='zone')finishDraft();});
+
+function drawDraft(cursor){const g=$('#draftG');if(!g)return;g.innerHTML='';if(!draft||!draft.length)return;
+  const pts=[...draft];let d='M '+pts.map(p=>p[0]+' '+p[1]).join(' L ');
+  g.appendChild(el('path',{d:d+(cursor?` L ${cursor.x.toFixed(0)} ${cursor.y.toFixed(0)}`:'')+(pts.length>1?' Z':''),
+    fill:'#C9A84C',"fill-opacity":.14,stroke:'#E8C765',"stroke-width":1.8,"stroke-dasharray":'5 4'}));
+  pts.forEach((p,i)=>g.appendChild(el('circle',{cx:p[0],cy:p[1],r:i===0?5:4,fill:i===0?'#E8C765':'#fff',stroke:'#C9A84C',"stroke-width":1.5})));}
+function finishDraft(){if(!draft||draft.length<3){draft=null;$('#draftG').innerHTML='';return;}
+  pushUndo();const f={id:uid(),kind:'zone',name_ar:'منطقة جديدة',name_en:'',cat:'retail',status:'vacant',
+    color:CATS.retail.color,area:Math.round(polyArea(draft)),capacity:0,activities:[],notes:'',code:nextCode('Z-'),points:draft.slice()};
+  S.features.push(f);draft=null;sel=f.id;setTool('select');renderAll();save();toast('أُضيفت منطقة — حرّر خصائصها');}
+function polyArea(pts){let a=0;for(let i=0;i<pts.length;i++){const[x1,y1]=pts[i],[x2,y2]=pts[(i+1)%pts.length];a+=x1*y2-x2*y1;}return Math.abs(a/2);}
+function dropUnit(x,y){pushUndo();const t=currentUnit;
+  const f={id:uid(),kind:'unit',unitType:t,name_ar:UNIT_TYPES[t].ar+' جديد',tenant:'',status:'vacant',color:UNIT_TYPES[t].accent,area:9,price:0,notes:'',code:nextCode('K-'),x:+gsnap(x).toFixed(1),y:+gsnap(y).toFixed(1)};
+  S.features.push(f);sel=f.id;renderAll();save();toast('أُضيفت وحدة: '+UNIT_TYPES[t].ar);}
+function addPlace(x,y){pushUndo();const f={id:uid(),kind:'place',name_ar:'معلم جديد',name_en:'',cat:'service',status:'vacant',color:CATS.service.color,code:nextCode('P-'),x:+gsnap(x).toFixed(1),y:+gsnap(y).toFixed(1),activities:[],notes:''};
+  S.features.push(f);sel=f.id;setTool('select');renderAll();save();toast('أُضيف معلم');}
+
+/* ═══════════ KEYBOARD ═══════════ */
+document.addEventListener('keydown',e=>{if(['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName))return;
+  if(e.ctrlKey||e.metaKey){if(e.key==='z'){e.preventDefault();undo();}if(e.key==='y'||(e.shiftKey&&e.key==='Z')){e.preventDefault();redo();}return;}
+  const k=e.key.toLowerCase();
+  if(k==='v')setTool('select');else if(k==='z')setTool('zone');else if(k==='u')setTool('unit');
+  else if(k==='p')setTool('place');else if(k==='d')setTool('delete');
+  else if(k===' '){e.preventDefault();setTool('pan');}
+  else if(k==='enter'&&tool==='zone')finishDraft();
+  else if(k==='escape'){draft=null;$('#draftG').innerHTML='';sel=null;renderAll();}
+  else if((k==='delete'||k==='backspace')&&sel)delFeature(sel);});
+
+/* ═══════════ TOP BAR ACTIONS ═══════════ */
+$('#btnUndo').onclick=undo;$('#btnRedo').onclick=redo;$('#btnTidy').onclick=tidyZones;
+$('#btnSnap').onclick=()=>{snap=!snap;$('#btnSnap').classList.toggle('on',snap);toast(snap?'تثبيت الشبكة مُفعّل':'تثبيت الشبكة مُعطّل');};
+$('#btnSave').onclick=()=>{save();toast('تم الحفظ محلياً ✓');};
+
+/* ═══════════ IO ═══════════ */
+$('#btnExport').onclick=()=>modal(`<h2>تصدير المخطّط</h2><p>JSON يحفظ كل القطع والوحدات والمعالم ويُستورد لاحقاً.</p>
+  <div class="row" style="flex-direction:column;gap:9px">
+    <button class="tbtn gold" style="justify-content:center" onclick="exportJSON();closeModal()">⭱ ملف JSON (بيانات كاملة)</button>
+    <button class="tbtn" style="justify-content:center" onclick="exportSVG();closeModal()">🖼 صورة SVG متجهة</button>
+    <button class="tbtn" style="justify-content:center" onclick="exportPNG();closeModal()">📷 صورة PNG</button>
+    <button class="tbtn danger" style="justify-content:center;border-color:rgba(212,90,74,.4)" onclick="resetScene()">↺ إعادة للوضع الافتراضي</button>
+    <button class="tbtn" style="justify-content:center;border:0;color:var(--muted)" onclick="closeModal()">إلغاء</button></div>`);
+function exportJSON(){const out={_app:'maham-site-map-studio',_schema:'maham-sitemap-layout@1',_v:1,_target:'spaces+sections',_exportedFor:'admin Units (قسم الوحدات) integration',...S};
+  download(JSON.stringify(out,null,2),'maham-site-map-layout.json','application/json');toast('صُدّر JSON ✓ — جاهز للربط بقسم الوحدات');}
+function exportSVG(){const clone=map.cloneNode(true);clone.setAttribute('xmlns',SVGNS);
+  $$('.ghost-vert',clone).forEach(n=>n.remove());const dg=clone.querySelector('#draftG');if(dg)dg.innerHTML='';
+  const st=el('style');st.textContent=themeCSS.textContent+';.map{background:#081127}';clone.insertBefore(st,clone.firstChild);
+  download('<?xml version="1.0" encoding="UTF-8"?>\n'+new XMLSerializer().serializeToString(clone),'maham-site-map.svg','image/svg+xml');toast('صُدّر SVG ✓');}
+function exportPNG(){try{const s=new XMLSerializer().serializeToString(map);const blob=new Blob([s],{type:'image/svg+xml'});const url=URL.createObjectURL(blob);
+  const img=new Image();img.onload=()=>{const c=document.createElement('canvas');c.width=1540;c.height=2168;const ctx=c.getContext('2d');
+    ctx.fillStyle='#081127';ctx.fillRect(0,0,c.width,c.height);ctx.drawImage(img,0,0,c.width,c.height);
+    c.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='maham-site-map.png';a.click();URL.revokeObjectURL(url);toast('صُدّر PNG ✓');});};
+  img.onerror=()=>toast('تعذّر PNG — جرّب SVG');img.src=url;}catch(e){toast('تعذّر PNG — جرّب SVG');}}
+function resetScene(){closeModal();modal(`<h2>إعادة للوضع الافتراضي؟</h2><p>سيُستبدل المخطّط الحالي بالترتيب الافتراضي المنظّم. لا يمكن التراجع بعد الحفظ.</p>
+  <div class="row"><button class="tbtn" onclick="closeModal()">إلغاء</button><button class="tbtn gold" onclick="doReset()">نعم، أعد الضبط</button></div>`);}
+function doReset(){pushUndo();S=defaultScene();sel=null;underlay=null;closeModal();renderAll();save();toast('أُعيد الضبط الافتراضي');}
+$('#btnImport').onclick=()=>$('#fileImport').click();
+$('#fileImport').onchange=e=>{const file=e.target.files[0];if(!file)return;const rd=new FileReader();
+  rd.onload=()=>{try{const o=JSON.parse(rd.result);if(!o.features)throw 0;pushUndo();S.features=o.features;S.visitorPath=o.visitorPath||S.visitorPath;S.meta=o.meta||S.meta;sel=null;renderAll();save();toast('استُورد المخطّط ✓');}catch(err){toast('ملف غير صالح');}};
+  rd.readAsText(file);e.target.value='';};
+$('#btnUnderlay').onclick=()=>{if(underlay){modal(`<h2>الصورة المرجعية</h2><p>تحكّم بشفافية صورة الـ CAD لترسم فوقها بدقّة.</p>
+    <div class="field"><label>الشفافية</label><input type="range" id="ulOp" min="0" max="100" value="${Math.round((underlay.opacity??.5)*100)}"/></div>
+    <div class="row"><button class="tbtn danger" style="border-color:rgba(212,90,74,.5)" onclick="removeUnderlay()">إزالة</button>
+    <button class="tbtn" onclick="$('#fileUnderlay').click()">استبدال</button><button class="tbtn gold" onclick="closeModal()">تم</button></div>`);
+    setTimeout(()=>{$('#ulOp')&&($('#ulOp').oninput=e=>{underlay.opacity=e.target.value/100;renderUnderlay();save();});},0);} else $('#fileUnderlay').click();};
+$('#fileUnderlay').onchange=e=>{const file=e.target.files[0];if(!file)return;const rd=new FileReader();
+  rd.onload=()=>{underlay={href:rd.result,opacity:.5};layers.underlay=true;renderAll();save();toast('حُمّلت الصورة المرجعية — ارسم فوقها');closeModal();};
+  rd.readAsDataURL(file);e.target.value='';};
+function removeUnderlay(){underlay=null;renderAll();save();closeModal();toast('أُزيلت الصورة المرجعية');}
+
+/* ═══════════ MODAL/TOAST ═══════════ */
+function modal(html){$('#modalBox').innerHTML=html;$('#modalBg').classList.add('show');}
+function closeModal(){$('#modalBg').classList.remove('show');}
+$('#modalBg').onclick=e=>{if(e.target.id==='modalBg')closeModal();};
+let toastT;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),1900);}
+function download(text,name,type){const b=new Blob([text],{type});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
+
+/* ═══════════ THEME CSS ═══════════ */
+const themeCSS=document.createElement('style');
+themeCSS.textContent=`
+  .map .g0{stop-color:#2f8f52}.map .g1{stop-color:#14592f}
+  .map.vNight .g0{stop-color:#175e34}.map.vNight .g1{stop-color:#0a3a1f}
+  .map.vBlue .g0{stop-color:#06203a}.map.vBlue .g1{stop-color:#041526}
+  .map.vDensity .g0{stop-color:#244a30}.map.vDensity .g1{stop-color:#10301c}
+  .map .gridL{display:none}.map.vBlue .gridL{display:block}
+  .map .gpath{fill:none;stroke:#dcae6a;stroke-width:5;stroke-opacity:.3;stroke-linecap:round}
+  .map .slot{stroke:#cde;stroke:#bfe7cc;stroke-width:1.2;opacity:.4}
+  .map .water{fill:#2e74a8;fill-opacity:.62;stroke:#7fc3ee;stroke-width:1;stroke-opacity:.4}.map.vNight .water{fill:#1a4d78}
+  .map .roadMain{fill:none;stroke:#caa86a;stroke-width:9;stroke-opacity:.4;stroke-linecap:round}
+  .map .road2{fill:none;stroke:#caa86a;stroke-width:6;stroke-opacity:.28;stroke-linecap:round}
+  .map.vBlue .roadMain,.map.vBlue .road2{stroke:#5fb6ff;stroke-opacity:.45}
+  .map .lot{fill:#c8bd9a;fill-opacity:.32;stroke:#d8cba0;stroke-width:1;stroke-opacity:.5}
+  .map.vNight .lot{fill:#6b6450;fill-opacity:.4}
+  .map .lotT{fill:#efe6c8;font-size:12px;font-weight:600;text-anchor:middle;font-family:'IBM Plex Sans Arabic'}
+  .map .rock{fill:#2a3550;fill-opacity:.5;stroke:#5a6b8e;stroke-width:.8;stroke-opacity:.5}
+  .map .tree{fill:#5aa86a;opacity:.7}
+  .map .ring{fill:none;stroke:#caa86a;stroke-width:2;stroke-opacity:.55}
+  .map .ringIn{fill:none;stroke:#caa86a;stroke-width:1;stroke-opacity:.32;stroke-dasharray:4 5}
+  .map .ringT{fill:#d8b878;font-size:11px;font-weight:600;text-anchor:middle;font-family:'IBM Plex Sans Arabic'}
+  .map.vBlue .ring,.map.vBlue .ringIn{stroke:#5fb6ff}
+  .map .zoneLbl{fill:#fff;font-size:10.5px;font-weight:700;font-family:'IBM Plex Sans Arabic';paint-order:stroke;stroke:#05101f;stroke-width:3;stroke-linejoin:round}
+  .map .zoneLbl2{fill:#cfe0ff;font-size:8px;font-weight:500;font-family:'IBM Plex Sans Arabic';paint-order:stroke;stroke:#05101f;stroke-width:2.2}
+  .map .unitLbl{fill:#fff;font-size:8.5px;font-weight:600;font-family:'IBM Plex Sans Arabic';paint-order:stroke;stroke:#05101f;stroke-width:2.4}
+  .map .placeLbl{fill:#fff;font-size:9.5px;font-weight:600;font-family:'IBM Plex Sans Arabic';paint-order:stroke;stroke:#05101f;stroke-width:2.6}
+  .map .unitPin,.map .placePin{transition:transform .12s}
+  .map.vBlue #lParking,.map.vBlue #lRocky{opacity:.5}
+  .map .zone{transition:fill-opacity .2s,stroke-width .15s}
+  .map .accRoad{stroke:#5f8fc0;stroke-width:2;stroke-opacity:.4}
+  .map .accMark{fill:#d05a4a;opacity:.6}
+  .map .roadCtx{fill:none;stroke:#6f8fb8;stroke-width:3;stroke-opacity:.32;stroke-linecap:round}
+  .map .roadEdge{fill:none;stroke:#aebed8;stroke-width:3.5;stroke-opacity:.3;stroke-linecap:round}
+  .map .roundA{fill:none;stroke:#7f93b8;stroke-width:2;stroke-opacity:.4}
+  .map .hexCtx{fill:#26324c;fill-opacity:.4;stroke:#566a92;stroke-width:.9;stroke-opacity:.5}
+  .map .resBld{fill:#9a5048;fill-opacity:.45;stroke:#c06a5e;stroke-width:.6;stroke-opacity:.5}
+  .map .resLbl{fill:#7e90b4;font-size:13px;font-weight:600;text-anchor:middle;font-family:'IBM Plex Sans Arabic'}
+  .map .bld{fill:#8a8470;fill-opacity:.5;stroke:#b8b095;stroke-width:.6;stroke-opacity:.5}
+  .map .evtLbl{fill:#E8C765;font-size:21px;font-weight:800;text-anchor:middle;font-family:'Cairo','IBM Plex Sans Arabic';paint-order:stroke;stroke:#06140a;stroke-width:4;letter-spacing:.5px}
+  .map .evtSub{fill:#cdeccf;font-size:11px;font-weight:500;text-anchor:middle;font-family:'IBM Plex Sans Arabic';paint-order:stroke;stroke:#06140a;stroke-width:2.5}`;
+document.head.appendChild(themeCSS);
+
+/* ═══════════ BOOT ═══════════ */
+buildPalette();renderAll();refreshUndo();
+$('#bmProj')&&($('#bmProj').textContent=S.meta?.name||'صيف وسمره · حديقة دلغان');
+toast('جاهز — جرّب أداة «وحدة» 🏪 لإضافة كباين وأكشاك');
+</script>
+</body>
+</html>
